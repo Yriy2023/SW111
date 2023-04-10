@@ -1,0 +1,41 @@
+---
+- name: github choice
+  hosts: clone
+  gather_facts: no
+
+  tasks:
+  - name: choice
+    pause:
+      prompt: "Which operation do you want to run? 1-Wordpress 2-Ansible 3-Zabbix"
+    register: user_choice
+
+  - name: Run wordpress
+    copy:
+      src: /etc/ansible/Wordpressauto.sh
+      dest: /home/kaka/
+      mode: 777
+  - name: start
+    command: bash Wordpressauto.sh
+    when: user_choice.user_input == "1"
+
+  - name: Run ansible
+    copy:
+      src: /etc/ansible/Ansible.sh
+      dest: /home/kaka/
+      mode: 777
+  - name: start
+    command: bash /home/kaka/Ansible.sh
+    when: user_choice.user_input == "2"
+    
+  - name: Run zabbix
+    copy:
+      src: /etc/ansible/Zabbix.sh
+      dest: /home/kaka/
+      mode: 777
+  - name: start
+    command: bash /home/kaka/Zabbix.sh
+    when: user_choice.user_input == "3"
+
+
+
+
